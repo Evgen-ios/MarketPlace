@@ -39,7 +39,7 @@ class ProductCellHeader: UIView {
     private func setupConstraints() {
         
         subtitleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(-30)
+            $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(16)
             $0.trailing.equalToSuperview().inset(-16)
         }

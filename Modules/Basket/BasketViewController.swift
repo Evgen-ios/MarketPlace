@@ -26,13 +26,12 @@ class BasketViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.allowsSelectionDuringEditing = false
         tableView.rowHeight = 104
-        tableView.backgroundColor = .lightGray.withAlphaComponent(0.2)
-        
-        //tableView.contentInset = .zero
-        //tableView.scrollIndicatorInsets = .zero
-        //tableView.contentInsetAdjustmentBehavior = .never
+        tableView.backgroundColor = .white
+        tableView.contentInset = UIEdgeInsets(top: -28, left: .zero, bottom: .zero, right: .zero)
         return tableView
     }()
+    
+    private lazy var nextButton = NextButton()
     
     // MARK: - Inherited Methods
     override func loadView() {
@@ -60,7 +59,7 @@ class BasketViewController: UIViewController {
     }
     
     private func setupViews() {
-        [tableView].forEach {
+        [tableView, nextButton].forEach {
             self.view.addSubview($0)
         }
     }
@@ -68,6 +67,12 @@ class BasketViewController: UIViewController {
     private func setupConstraints() {
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        nextButton.snp.remakeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(96)
         }
     }
 }
@@ -106,28 +111,6 @@ extension BasketViewController {
         
         self.navigationItem.leftBarButtonItem = backBarButtonItem
         self.navigationItem.rightBarButtonItem = trashItem
-    }
-    
-    @objc private func backItemTapped() {
-        print( "backItemTapped")
-    }
-    
-    @objc private func trashItemTapped() {
-        print( "trashItemTapped")
-        Task {
-            try await deleteCart()
-        }
-    }
-    
-    private func fetchData() async {
-        do {
-            self.items = try await fetchCartItems()
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        } catch {
-            print("Can't get items")
-        }
     }
 }
 
@@ -179,17 +162,20 @@ extension BasketViewController: Cart {
     func deleteCart() async throws {
         self.items = .init()
         self.tableView.reloadData()
+        self.hideNextButton()
     }
     
     func updateCartItem(item: CartItem) async throws {
-        
         if let index = items.firstIndex(where: { $0.id == item.id }) {
-            items[index] = item
+            self.items[index] = item
         }
+        
+        self.finaPrice()
     }
     
     func updateCartItem(items: [CartItem]) async throws {
-        print("")
+        self.items = items
+        self.tableView.reloadData()
     }
 }
 
@@ -197,6 +183,56 @@ extension BasketViewController: ProductCellDelegate {
     func updatedCartItem(item: CartItem) {
         Task {
             try await self.updateCartItem(item: item)
+        }
+    }
+}
+
+// MARK: - Methods
+extension BasketViewController {
+    private func finaPrice() {
+        var finalPrice: Int = .init()
+        
+        items.forEach {
+            finalPrice += ($0.count * $0.price)
+        }
+        
+        let price = String(finalPrice) + (items.first?.currency ?? "₽")
+        self.nextButton.setPrice(price)
+    }
+    
+    private func hideNextButton() {
+        UIView.animate(withDuration: 0.3) {
+            self.nextButton.snp.updateConstraints{
+                $0.bottom.equalToSuperview().inset(-96)
+                $0.left.right.equalToSuperview()
+                $0.height.equalTo(96)
+            }
+            
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
+    @objc private func backItemTapped() {
+        print( "backItemTapped")
+    }
+    
+    @objc private func trashItemTapped() {
+        print( "trashItemTapped")
+        Task {
+            try await deleteCart()
+        }
+    }
+    
+    private func fetchData() async {
+        do {
+            self.items = try await fetchCartItems()
+            DispatchQueue.main.async {
+                self.finaPrice()
+                self.tableView.reloadData()
+            }
+        } catch {
+            print("Can't get items")
         }
     }
 }

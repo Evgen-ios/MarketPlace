@@ -22,6 +22,8 @@
 		7A7806322C87E8210041A2B5 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7806312C87E8210041A2B5 /* NukeUI */; };
 		7A7806342C87E8210041A2B5 /* NukeVideo in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7806332C87E8210041A2B5 /* NukeVideo */; };
 		7A7806362C880D6E0041A2B5 /* NextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7806352C880D6E0041A2B5 /* NextButton.swift */; };
+		7A7806392C885BCE0041A2B5 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A7806382C885BCD0041A2B5 /* Colors.xcassets */; };
+		7A78063C2C886B890041A2B5 /* UIImage + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A78063B2C886B890041A2B5 /* UIImage + Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,8 @@
 		7A7806192C8761600041A2B5 /* ProductCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCellHeader.swift; sourceTree = "<group>"; };
 		7A78061B2C87D9CC0041A2B5 /* StepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperView.swift; sourceTree = "<group>"; };
 		7A7806352C880D6E0041A2B5 /* NextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextButton.swift; sourceTree = "<group>"; };
+		7A7806382C885BCD0041A2B5 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		7A78063B2C886B890041A2B5 /* UIImage + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,9 +91,10 @@
 		7A7805FE2C872BFE0041A2B5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				7A7806112C873E2D0041A2B5 /* LaunchScreen.storyboard */,
 				7A7805F32C872B8A0041A2B5 /* Assets.xcassets */,
+				7A7806382C885BCD0041A2B5 /* Colors.xcassets */,
 				7A7805F82C872B8A0041A2B5 /* Info.plist */,
+				7A7806112C873E2D0041A2B5 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -97,6 +102,7 @@
 		7A7805FF2C872E450041A2B5 /* ApplicationLayer */ = {
 			isa = PBXGroup;
 			children = (
+				7A78063A2C886B720041A2B5 /* Extension */,
 				7A7806002C872E4E0041A2B5 /* AppDelegate */,
 				7A78060D2C8733810041A2B5 /* Common */,
 			);
@@ -151,6 +157,14 @@
 				7A7806192C8761600041A2B5 /* ProductCellHeader.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		7A78063A2C886B720041A2B5 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				7A78063B2C886B890041A2B5 /* UIImage + Ext.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -222,6 +236,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A7806392C885BCE0041A2B5 /* Colors.xcassets in Resources */,
 				7A7805F42C872B8A0041A2B5 /* Assets.xcassets in Resources */,
 				7A7806122C873E2D0041A2B5 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -237,6 +252,7 @@
 				7A7806102C8733A40041A2B5 /* CartItem.swift in Sources */,
 				7A7805EF2C872B890041A2B5 /* BasketViewController.swift in Sources */,
 				7A7806152C8750490041A2B5 /* ProductCell.swift in Sources */,
+				7A78063C2C886B890041A2B5 /* UIImage + Ext.swift in Sources */,
 				7A7805EB2C872B890041A2B5 /* AppDelegate.swift in Sources */,
 				7A78061C2C87D9CC0041A2B5 /* StepperView.swift in Sources */,
 				7A78061A2C8761600041A2B5 /* ProductCellHeader.swift in Sources */,

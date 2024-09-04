@@ -52,6 +52,7 @@ class ProductCell: UITableViewCell {
     private lazy var contaner: UIView = {
         let view = UIView()
         view.backgroundColor = .white
+        view.clipsToBounds = true
         return view
     }()
     
@@ -155,12 +156,13 @@ extension ProductCell {
     
     func setRoundedCorners(for indexPath: IndexPath, numberOfRows: Int) {
         contaner.layer.cornerRadius = 0
-        self.backgroundColor = .clear
+        self.backgroundColor = .white
         
         if indexPath.row == numberOfRows - 1 {
             contaner.layer.cornerRadius = 24
             contaner.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             contaner.clipsToBounds = true
+            self.backgroundColor = .lightGray.withAlphaComponent(0.2)
             
             customSeparator.snp.remakeConstraints {
                 $0.bottom.equalToSuperview()

@@ -63,15 +63,15 @@ class StepperView: UIView {
     // MARK: - Inherited Methods
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubviews()
+        setupViews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        addSubviews()
+        setupViews()
     }
     
-    private func addSubviews() {
+    private func setupViews() {
         
         [minusButton, valueLabel, plusButton].forEach {
             self.stackView.addArrangedSubview($0)
