@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class BasketViewController: UIViewController {
+final class BasketViewController: UIViewController {
     
     // MARK: - Properties
     private var items: [CartItem] = .init()
@@ -18,20 +18,26 @@ class BasketViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
-        tableView.canCancelContentTouches = false
-        tableView.delaysContentTouches = true
-        tableView.isExclusiveTouch = true
         tableView.register(ProductCell.self, forCellReuseIdentifier: "ProductCell")
         tableView.allowsSelection = false
         tableView.separatorStyle = .none
         tableView.allowsSelectionDuringEditing = false
         tableView.rowHeight = 104
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .lightGray.withAlphaComponent(0.2)
         tableView.contentInset = UIEdgeInsets(top: -28, left: .zero, bottom: .zero, right: .zero)
         return tableView
     }()
     
-    private lazy var nextButton = NextButton()
+    let nextButton = NextButton()
+    
+    let appearance: UINavigationBarAppearance = {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .white
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+        appearance.shadowColor = nil
+        return appearance
+    }()
     
     // MARK: - Inherited Methods
     override func loadView() {
@@ -45,6 +51,11 @@ class BasketViewController: UIViewController {
         Task {
             await fetchData()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     override func viewDidLayoutSubviews() {
@@ -85,18 +96,20 @@ extension BasketViewController {
             .font: UIFont.systemFont(ofSize: 34, weight: .heavy)
         ]
         
-        title = "Корзина"
-        navigationController?.navigationBar.barTintColor = .white
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .automatic
+        self.title = "Корзина"
+        self.navigationItem.largeTitleDisplayMode = .automatic
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
+    
     
     private func setupBarButtonItems() {
         let backBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "arrow.backward")?.withTintColor(.black, renderingMode: .alwaysTemplate),
             style: .plain,
             target: self,
-            action: #selector(backItemTapped)
+            action: nil
         )
         
         let trashItem = UIBarButtonItem(
@@ -117,9 +130,8 @@ extension BasketViewController {
 // MARK: - UITableViewDelegate
 extension BasketViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
         if indexPath.row == (items.count - 1) {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 16)
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         } else {
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
@@ -155,7 +167,6 @@ extension BasketViewController: UITableViewDataSource {
 extension BasketViewController: Cart {
     func fetchCartItems() async throws -> [CartItem] {
         let itetItems = CartItem.fetchMocCartItems()
-        
         return itetItems
     }
     
@@ -170,11 +181,17 @@ extension BasketViewController: Cart {
             self.items[index] = item
         }
         
-        self.finaPrice()
+        self.finalPrice()
     }
     
     func updateCartItem(items: [CartItem]) async throws {
-        self.items = items
+        var updatedItemsDict = Dictionary(uniqueKeysWithValues: self.items.map { ($0.id, $0) })
+        
+        for item in items {
+            updatedItemsDict[item.id] = item
+        }
+        
+        self.items = Array(updatedItemsDict.values)
         self.tableView.reloadData()
     }
 }
@@ -189,7 +206,7 @@ extension BasketViewController: ProductCellDelegate {
 
 // MARK: - Methods
 extension BasketViewController {
-    private func finaPrice() {
+    private func finalPrice() {
         var finalPrice: Int = .init()
         
         items.forEach {
@@ -210,11 +227,6 @@ extension BasketViewController {
             
             self.view.layoutIfNeeded()
         }
-        
-    }
-    
-    @objc private func backItemTapped() {
-        print( "backItemTapped")
     }
     
     @objc private func trashItemTapped() {
@@ -228,7 +240,7 @@ extension BasketViewController {
         do {
             self.items = try await fetchCartItems()
             DispatchQueue.main.async {
-                self.finaPrice()
+                self.finalPrice()
                 self.tableView.reloadData()
             }
         } catch {

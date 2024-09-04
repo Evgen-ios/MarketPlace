@@ -8,12 +8,13 @@
 import UIKit
 import SnapKit
 
-class NextButton: UIView {
+final class NextButton: UIView {
     
+    // MARK: - Properties
     private lazy var title: UILabel = {
         let label = UILabel()
         label.text = "Далее"
-        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 19, weight: .medium)
         label.textColor = .black
         label.textAlignment = .center
         label.numberOfLines = 1
@@ -22,7 +23,7 @@ class NextButton: UIView {
     
     private lazy var price: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 19, weight: .medium)
         label.textColor = .black
         label.textAlignment = .right
         label.numberOfLines = 1
@@ -50,6 +51,7 @@ class NextButton: UIView {
         return view
     }()
     
+    // MARK: - Inherited Methods
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -88,8 +90,7 @@ class NextButton: UIView {
         title.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.centerX.equalToSuperview()
-            
-            $0.right.equalTo(price.snp.left).offset(-8)
+            $0.right.equalTo(price.snp.left).offset(-12)
         }
         
         price.snp.makeConstraints {
@@ -97,7 +98,9 @@ class NextButton: UIView {
             $0.right.equalToSuperview().offset(-16)
         }
     }
-    
+}
+
+extension NextButton {
     func setTitle(_ title: String?) {
         self.title.text = title
     }

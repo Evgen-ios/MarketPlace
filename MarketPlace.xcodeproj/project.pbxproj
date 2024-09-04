@@ -63,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				7A7805FF2C872E450041A2B5 /* ApplicationLayer */,
+				7A78063A2C886B720041A2B5 /* Extension */,
 				7A7806012C872ED80041A2B5 /* Modules */,
 				7A7805E82C872B890041A2B5 /* Products */,
 				7A7805FE2C872BFE0041A2B5 /* Resources */,
@@ -102,7 +103,6 @@
 		7A7805FF2C872E450041A2B5 /* ApplicationLayer */ = {
 			isa = PBXGroup;
 			children = (
-				7A78063A2C886B720041A2B5 /* Extension */,
 				7A7806002C872E4E0041A2B5 /* AppDelegate */,
 				7A78060D2C8733810041A2B5 /* Common */,
 			);

@@ -12,7 +12,7 @@ protocol StepperViewDelegate: AnyObject {
     func currentValue(value: Int)
 }
 
-class StepperView: UIView {
+final class StepperView: UIView {
     
     // MARK: - Properties
     weak var delegate: StepperViewDelegate?
@@ -100,7 +100,6 @@ extension StepperView {
     }
     
     @objc private func increaseValue() {
-        
         if value < 99 {
             value += 1
         }

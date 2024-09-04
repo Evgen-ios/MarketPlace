@@ -24,7 +24,7 @@ struct CartItem {
                       "https://habrastorage.org/webt/jq/ar/v9/jqarv9jdwldmhbyxq8iiyrtnwgq.png"]
         
         mocData.enumerated().forEach {
-            let item = CartItem(id: $0.offset.formatted(), name: $0.element, count: $0.offset + 1, price: 100, currency: "₽", imageUrl: images[$0.offset])
+            let item = CartItem(id: $0.offset.formatted(), name: $0.element, count: 1, price: 100, currency: "₽", imageUrl: images[$0.offset])
             items.append(item)
         }
         

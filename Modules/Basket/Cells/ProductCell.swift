@@ -8,7 +8,7 @@
 import UIKit
 import Nuke
 
-class ProductCell: UITableViewCell {
+final class ProductCell: UITableViewCell {
     
     // MARK: - Properties
     weak var delegate: ProductCellDelegate?
@@ -137,7 +137,6 @@ class ProductCell: UITableViewCell {
 }
 
 extension ProductCell {
-    
     func configureCell(item: CartItem) {
         self.item = item
         self.title.text = item.name
@@ -162,7 +161,7 @@ extension ProductCell {
             contaner.layer.cornerRadius = 24
             contaner.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             contaner.clipsToBounds = true
-            self.backgroundColor = .lightGray.withAlphaComponent(0.2)
+            self.backgroundColor = .clear
             
             customSeparator.snp.remakeConstraints {
                 $0.bottom.equalToSuperview()
@@ -180,6 +179,7 @@ extension ProductCell {
     }
 }
 
+// MARK: - StepperViewDelegate
 extension ProductCell: StepperViewDelegate {
     func currentValue(value: Int) {
         self.item?.count = value
